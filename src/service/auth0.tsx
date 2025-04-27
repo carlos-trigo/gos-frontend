@@ -13,7 +13,6 @@ export const Auth0 = ({
   const redirectUri = process.env.REACT_APP_AUTH0_CALLBACK_URL;
   const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
-  console.log("ENVs: ", domain, clientId, redirectUri, audience);
   // const onRedirectCallback = (appState?: AppState) => {
   //   navigate(appState?.returnTo || window.location.pathname);
   // };
