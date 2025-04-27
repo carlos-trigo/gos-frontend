@@ -1,0 +1,55 @@
+import { FullPage } from "../components/layout/full-page";
+import { Logout } from "../components/auth";
+import { BigTitle } from "../components/text";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Unauthorized } from "./unauthorized";
+import { Button } from "../components/button";
+import { FlexColCentered } from "../components/layout/containers";
+import { UserCard } from "../components/user";
+import { useEffect, useState } from "react";
+import { getAllSkaters, getOrCreateSkater } from "../service/api";
+
+export const Home = () => {
+  const {
+    user,
+    isAuthenticated,
+    isLoading: authIsLoading,
+    getAccessTokenSilently,
+  } = useAuth0();
+  const [token, setToken] = useState<string>();
+
+  useEffect(() => {
+    const getToken = async () => setToken(await getAccessTokenSilently());
+    getToken();
+  }, [getAccessTokenSilently]);
+
+  if (authIsLoading) {
+    return <div>Loading ...</div>;
+  }
+
+  if (!isAuthenticated) return <Unauthorized />;
+
+  const handleGetOrCreateSkater = async () => {
+    if (!user || !token) return;
+    const result = getOrCreateSkater(user, token);
+    console.log(result);
+  };
+
+  const handleGetAllSkaters = async () => {
+    if (!user || !token) return;
+    const result = getAllSkaters(token);
+    console.log(result);
+  };
+
+  return (
+    <FullPage>
+      <FlexColCentered padding="50px 0px">
+        <UserCard user={user} />
+        <BigTitle>game of skate</BigTitle>
+        <Button onClick={handleGetOrCreateSkater}>profile</Button>
+        <Button onClick={handleGetAllSkaters}>skaters</Button>
+        <Logout />
+      </FlexColCentered>
+    </FullPage>
+  );
+};
