@@ -7,11 +7,11 @@ import { Button } from "../components/button";
 import { FlexColCentered } from "../components/layout/containers";
 import { UserCard } from "../components/user";
 import { useEffect, useState } from "react";
-import { getAllSkaters, getOrCreateSkater } from "../service/api";
+import { getAllSkaters, getFriends } from "../service/api";
 import { useNavigate } from "react-router";
 import { paths } from "../routes/paths";
 
-export const Home = () => {
+export const Friends = () => {
   const {
     user,
     isAuthenticated,
@@ -32,9 +32,9 @@ export const Home = () => {
 
   if (!isAuthenticated) return <Unauthorized />;
 
-  const handleGetOrCreateSkater = async () => {
-    if (!user || !token) return;
-    const result = getOrCreateSkater(user, token);
+  const handleGetFriends = async () => {
+    if (!user?.email || !token) return;
+    const result = getFriends(user.email, token);
     console.info(result);
   };
 
@@ -49,9 +49,8 @@ export const Home = () => {
       <FlexColCentered padding="50px 0px">
         <UserCard user={user} />
         <BigTitle>game of skate</BigTitle>
-        <Button onClick={handleGetOrCreateSkater}>profile</Button>
+        <Button onClick={handleGetFriends}>friends</Button>
         <Button onClick={handleGetAllSkaters}>skaters</Button>
-        <Button onClick={() => navigate(paths.friends)}>friends</Button>
         <Button onClick={() => navigate(paths.landing)}>landing</Button>
         <Logout />
       </FlexColCentered>

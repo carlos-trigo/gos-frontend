@@ -2,13 +2,16 @@ import "./App.css";
 import { Home } from "./pages/home";
 import { Landing } from "./pages/landing";
 import { Routes, Route } from "react-router";
+import { paths } from "./routes/paths";
+import { Friends } from "./pages/friends";
 
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="home" element={<Home />} />
+        <Route path={paths.landing} element={<Landing />} />
+        <Route path={paths.home} element={<Home />} />
+        <Route path={paths.friends} element={<Friends />} />
       </Routes>
     </div>
   );

@@ -22,7 +22,7 @@ export const getAllSkaters = async (token: string) => {
 export const getOrCreateSkater = async (user: User, token: string) => {
   const { nickname, email, email_verified, picture } = user;
 
-  const url = `${API_URL}/user`;
+  const url = `${API_URL}/auth`;
   const response = await fetch(url, {
     method: "POST",
     headers: {
@@ -40,51 +40,20 @@ export const getOrCreateSkater = async (user: User, token: string) => {
   return result;
 };
 
-/** Edits a todo's name by its ID */
-export const renameTodo = async (id: string, name: string) => {
-  const url = `${API_URL}/rename/${id}`;
+export const getFriends = async (email: string, token: string) => {
+  const url = `${API_URL}/friends/${email}`;
   const response = await fetch(url, {
-    method: "PUT",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ name }),
   });
   const result = await response.json();
 
   console.info(`PUT ${url}: `, response.status);
   if (response.status !== 200)
-    throw new Error(`Failed to rename todo: ${result.message}`);
-
-  return result;
-};
-
-/** Sets todo's as complete by its ID */
-export const setTodoAsCompleted = async (id: string) => {
-  const url = `${API_URL}/setAsCompleted/${id}`;
-  const response = await fetch(url, {
-    method: "PUT",
-  });
-  const result = await response.json();
-
-  console.info(`PUT ${url}: `, response.status);
-  if (response.status !== 200)
-    throw new Error(`Failed to set todo as completed: ${result.message}`);
-
-  return result;
-};
-
-/** Sets todo's as complete by its ID */
-export const setTodoAsNotCompleted = async (id: string) => {
-  const url = `${API_URL}/setAsNotCompleted/${id}`;
-  const response = await fetch(url, {
-    method: "PUT",
-  });
-  const result = await response.json();
-
-  console.info(`PUT ${url}: `, response.status);
-  if (response.status !== 200)
-    throw new Error(`Failed to set todo as not completed: ${result.message}`);
+    throw new Error(`Failed to get friends: ${result.message}`);
 
   return result;
 };
