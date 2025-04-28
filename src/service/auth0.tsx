@@ -13,11 +13,8 @@ export const Auth0 = ({
   const redirectUri = process.env.REACT_APP_AUTH0_CALLBACK_URL;
   const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
-  // const onRedirectCallback = (appState?: AppState) => {
-  //   navigate(appState?.returnTo || window.location.pathname);
-  // };
-
   if (!(domain && clientId && redirectUri && audience)) {
+    console.error("Unable to configure Auth0: missing envs");
     return null;
   }
 
@@ -29,7 +26,6 @@ export const Auth0 = ({
         audience: audience,
         redirect_uri: redirectUri,
       }}
-      // onRedirectCallback={onRedirectCallback}
     >
       {children}
     </Auth0Provider>
