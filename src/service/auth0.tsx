@@ -1,6 +1,12 @@
 import { Auth0Provider } from "@auth0/auth0-react";
 import React, { JSX, PropsWithChildren } from "react";
 import { useNavigate } from "react-router";
+import {
+  AUTH0_AUDIENCE,
+  AUTH0_CALLBACK_URL,
+  AUTH0_CLIENT_ID,
+  AUTH0_DOMAIN,
+} from "../constants";
 
 interface Auth0ProviderWithNavigateProps {
   children: React.ReactNode;
@@ -9,10 +15,10 @@ interface Auth0ProviderWithNavigateProps {
 export const Auth0 = ({
   children,
 }: PropsWithChildren<Auth0ProviderWithNavigateProps>): JSX.Element | null => {
-  const domain = process.env.REACT_APP_AUTH0_DOMAIN;
-  const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
-  const redirectUri = process.env.REACT_APP_AUTH0_CALLBACK_URL;
-  const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
+  const domain = AUTH0_DOMAIN;
+  const clientId = AUTH0_CLIENT_ID;
+  const redirectUri = AUTH0_CALLBACK_URL;
+  const audience = AUTH0_AUDIENCE;
   const navigate = useNavigate();
 
   const onRedirectCallback = (appState) => {

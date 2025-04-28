@@ -8,6 +8,8 @@ import { FlexColCentered } from "../components/layout/containers";
 import { UserCard } from "../components/user";
 import { useEffect, useState } from "react";
 import { getAllSkaters, getOrCreateSkater } from "../service/api";
+import { useNavigate } from "react-router";
+import { paths } from "../routes/paths";
 
 export const Home = () => {
   const {
@@ -17,6 +19,7 @@ export const Home = () => {
     getAccessTokenSilently,
   } = useAuth0();
   const [token, setToken] = useState<string>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getToken = async () => setToken(await getAccessTokenSilently());
@@ -32,13 +35,13 @@ export const Home = () => {
   const handleGetOrCreateSkater = async () => {
     if (!user || !token) return;
     const result = getOrCreateSkater(user, token);
-    console.log(result);
+    console.info(result);
   };
 
   const handleGetAllSkaters = async () => {
     if (!user || !token) return;
     const result = getAllSkaters(token);
-    console.log(result);
+    console.info(result);
   };
 
   return (
@@ -48,6 +51,7 @@ export const Home = () => {
         <BigTitle>game of skate</BigTitle>
         <Button onClick={handleGetOrCreateSkater}>profile</Button>
         <Button onClick={handleGetAllSkaters}>skaters</Button>
+        <Button onClick={() => navigate(paths.landing)}>landing</Button>
         <Logout />
       </FlexColCentered>
     </FullPage>
