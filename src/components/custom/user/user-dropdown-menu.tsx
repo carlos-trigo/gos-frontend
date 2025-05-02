@@ -26,7 +26,7 @@ export function UserDropdownMenu({ user }: { user: User | undefined }) {
           <UserCard user={user} />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent className="w-42 ml-10 mt-4">
         <DropdownMenuLabel>{user?.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
@@ -52,8 +52,23 @@ export function UserDropdownMenu({ user }: { user: User | undefined }) {
             </DropdownMenuPortal>
           </DropdownMenuSub>
         </DropdownMenuGroup>
+        <DropdownMenuGroup>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>Navigate</DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem onClick={() => navigate(paths.home)}>
+                  Home
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate(paths.friends)}>
+                  Friends
+                </DropdownMenuItem>
+                <DropdownMenuItem>Games</DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>GitHub</DropdownMenuItem>
         <DropdownMenuItem>
           About
           <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
