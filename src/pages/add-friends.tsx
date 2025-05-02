@@ -45,7 +45,7 @@ export const AddFriends = () => {
   return (
     <FullPage>
       <div className="flex-col justify-items-center">
-        <div className="flex-none">
+        <div className="flex-1 justify-self-end">
           <UserCard user={user} />
         </div>
         <div className="flex-none">

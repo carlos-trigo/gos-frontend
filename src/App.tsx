@@ -5,12 +5,12 @@ import { Routes, Route } from "react-router";
 import { paths } from "./routes/paths";
 import { Friends } from "./pages/friends";
 import { AddFriends } from "./pages/add-friends";
-// import { FooterLogo } from "./components/custom/footer-logo";
+import { LogoMarquee } from "./components/custom/logo-marquee";
 
 function App() {
   return (
     <div className="App">
-      {/* <FooterLogo /> */}
+      <LogoMarquee header footer />
 
       <Routes>
         <Route path={paths.landing} element={<Landing />} />
