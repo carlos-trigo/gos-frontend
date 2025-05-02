@@ -3,4 +3,6 @@ export const paths = {
   home: "/home",
   friends: "/friends",
   addFriends: "/friends/add",
+  profile: "/profile",
+  stats: "/stats",
 };

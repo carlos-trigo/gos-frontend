@@ -25,13 +25,13 @@ export const LogoMarquee = ({ header, footer }: LogoMarqueeProps) => {
     </svg>
   ));
   const HeaderMarquee = (
-    <div className="overflow-hidden absolute bottom-0 left-0 flex-row justify-evenly w-screen h-30">
+    <div className=" -z-1 overflow-hidden absolute bottom-0 left-0 flex-row justify-evenly w-screen h-30">
       <InfiniteMovingCards items={Logos} direction="left" speed="slow" />
     </div>
   );
 
   const FooterMarquee = (
-    <div className="overflow-hidden absolute top-0 left-0 flex-row justify-evenly w-screen h-30">
+    <div className="-z-1 overflow-hidden absolute top-0 left-0 flex-row justify-evenly w-screen h-30">
       <InfiniteMovingCards items={Logos} direction="right" speed="slow" />
     </div>
   );

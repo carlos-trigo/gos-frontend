@@ -2,7 +2,6 @@ import { BigTitle } from "@/components/custom/text";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Unauthorized } from "./unauthorized";
 import { Button } from "@/components/custom/button";
-import { UserCard } from "@/components/custom/user/user-card";
 import { useEffect, useState } from "react";
 import { getAddFriendsData } from "../service/api";
 import { useNavigate } from "react-router";
@@ -11,6 +10,7 @@ import { Skater } from "../types/backend";
 import { isSkaterArray } from "../service/typeguard";
 import { SkatersTable } from "@/components/custom/user/user-table";
 import { FullPage } from "@/components/custom/layout/full-page";
+import { UserDropdownMenu } from "@/components/custom/user/user-dropdown-menu";
 
 export const AddFriends = () => {
   const {
@@ -45,8 +45,8 @@ export const AddFriends = () => {
   return (
     <FullPage>
       <div className="flex-col justify-items-center">
-        <div className="flex-1 justify-self-end">
-          <UserCard user={user} />
+        <div className="flex-1 pl-8 pt-8 justify-self-start">
+          <UserDropdownMenu user={user} />
         </div>
         <div className="flex-none">
           <BigTitle>game of skate</BigTitle>

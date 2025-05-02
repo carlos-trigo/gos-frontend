@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import { FlexCentered } from "../layout/containers";
-import { fonts, fontSize } from "../style";
+import { fontSize } from "../style";
 import { Text } from "../text";
-import { useState } from "react";
 import { User } from "@auth0/auth0-react";
 import { Skater } from "@/types/backend";
 
@@ -19,25 +18,12 @@ export const SkaterCard = ({ skater }: { skater: Skater }) => {
 };
 
 export const UserCard = ({ user }: { user?: User }) => {
-  const [hover, setHover] = useState(false);
   if (!user) return <></>;
 
   return (
-    <FlexCentered
-      direction="column"
-      width="100px"
-      height="100px"
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
-      {hover ? (
-        <Text size={fontSize.s} family={fonts.barrio}>
-          {user.nickname}
-        </Text>
-      ) : (
-        <RoundedImg src={user.picture} />
-      )}
-    </FlexCentered>
+    <div className="w-[100px] h-100px] flex-col">
+      <RoundedImg src={user.picture} />
+    </div>
   );
 };
 
