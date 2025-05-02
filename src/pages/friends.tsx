@@ -1,15 +1,13 @@
-import { FullPage } from "../components/layout/full-page";
-import { Logout } from "../components/auth";
-import { BigTitle } from "../components/text";
+import { FullPage } from "@/components/custom/layout/full-page";
+import { BigTitle } from "@/components/custom/text";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Unauthorized } from "./unauthorized";
-import { Button } from "../components/button";
-import { FlexColCentered } from "../components/layout/containers";
-import { UserCard } from "../components/user";
+import { UserCard } from "@/components/custom/user/user-card";
 import { useEffect, useState } from "react";
-import { getAllSkaters, getFriends } from "../service/api";
+import { getFriends } from "../service/api";
 import { useNavigate } from "react-router";
 import { paths } from "../routes/paths";
+import { Menu } from "@/components/custom/menu";
 
 export const Friends = () => {
   const {
@@ -38,22 +36,33 @@ export const Friends = () => {
     console.info(result);
   };
 
-  const handleGetAllSkaters = async () => {
-    if (!user || !token) return;
-    const result = getAllSkaters(token);
-    console.info(result);
-  };
-
+  const menuItems = [
+    {
+      text: "add-friends",
+      callback: () => navigate(paths.addFriends),
+    },
+    {
+      text: "friends",
+      callback: () => handleGetFriends(),
+    },
+    {
+      text: "back",
+      callback: () => navigate(paths.home),
+    },
+  ];
   return (
     <FullPage>
-      <FlexColCentered padding="50px 0px">
-        <UserCard user={user} />
-        <BigTitle>game of skate</BigTitle>
-        <Button onClick={handleGetFriends}>friends</Button>
-        <Button onClick={handleGetAllSkaters}>skaters</Button>
-        <Button onClick={() => navigate(paths.landing)}>landing</Button>
-        <Logout />
-      </FlexColCentered>
+      <div className="flex-col justify-items-center">
+        <div className="flex-none justify-self-end">
+          <UserCard user={user} />
+        </div>
+        <div className="flex-none">
+          <BigTitle>game of skate</BigTitle>
+        </div>
+        <div className="flex-none">
+          <Menu items={menuItems} />
+        </div>
+      </div>
     </FullPage>
   );
 };

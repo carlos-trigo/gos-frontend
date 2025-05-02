@@ -19,6 +19,24 @@ export const getAllSkaters = async (token: string) => {
   return result;
 };
 
+export const getAddFriendsData = async (email: string, token: string) => {
+  const url = `${API_URL}/ui/add-friends/${email}`;
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const result = await response.json();
+
+  console.info(`GET ${url}: `, response.status);
+  if (response.status !== 200)
+    throw new Error(`An error occurred while fetching all todos: ${result}`);
+
+  return result;
+};
+
 export const getOrCreateSkater = async (user: User, token: string) => {
   const { nickname, email, email_verified, picture } = user;
 

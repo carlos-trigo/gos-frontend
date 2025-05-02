@@ -1,4 +1,4 @@
-import { Auth0Provider } from "@auth0/auth0-react";
+import { AppState, Auth0Provider } from "@auth0/auth0-react";
 import React, { JSX, PropsWithChildren } from "react";
 import { useNavigate } from "react-router";
 import {
@@ -21,7 +21,7 @@ export const Auth0 = ({
   const audience = AUTH0_AUDIENCE;
   const navigate = useNavigate();
 
-  const onRedirectCallback = (appState) => {
+  const onRedirectCallback = (appState?: AppState) => {
     navigate(
       appState && appState.returnTo
         ? appState.returnTo

@@ -1,5 +1,6 @@
 export const paths = {
   landing: "/",
-  home: "home",
-  friends: "friends",
+  home: "/home",
+  friends: "/friends",
+  addFriends: "/friends/add",
 };

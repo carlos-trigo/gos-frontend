@@ -1,15 +1,13 @@
-import { FullPage } from "../components/layout/full-page";
-import { Logout } from "../components/auth";
-import { BigTitle } from "../components/text";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Unauthorized } from "./unauthorized";
-import { Button } from "../components/button";
-import { FlexColCentered } from "../components/layout/containers";
-import { UserCard } from "../components/user";
 import { useEffect, useState } from "react";
-import { getAllSkaters, getOrCreateSkater } from "../service/api";
+import { getOrCreateSkater } from "../service/api";
 import { useNavigate } from "react-router";
 import { paths } from "../routes/paths";
+import { FullPage } from "@/components/custom/layout/full-page";
+import { UserCard } from "@/components/custom/user/user-card";
+import { BigTitle } from "@/components/custom/text";
+import { Menu } from "@/components/custom/menu";
 
 export const Home = () => {
   const {
@@ -17,6 +15,7 @@ export const Home = () => {
     isAuthenticated,
     isLoading: authIsLoading,
     getAccessTokenSilently,
+    logout,
   } = useAuth0();
   const [token, setToken] = useState<string>();
   const navigate = useNavigate();
@@ -38,23 +37,37 @@ export const Home = () => {
     console.info(result);
   };
 
-  const handleGetAllSkaters = async () => {
-    if (!user || !token) return;
-    const result = getAllSkaters(token);
-    console.info(result);
-  };
+  const menuItems = [
+    {
+      text: "profile",
+      callback: () => handleGetOrCreateSkater(),
+    },
+    {
+      text: "friends",
+      callback: () => navigate(paths.friends),
+    },
+    {
+      text: "landing",
+      callback: () => navigate(paths.landing),
+    },
+    {
+      text: "log out",
+      callback: () => logout(),
+    },
+  ];
 
   return (
     <FullPage>
-      <FlexColCentered padding="50px 0px">
-        <UserCard user={user} />
-        <BigTitle>game of skate</BigTitle>
-        <Button onClick={handleGetOrCreateSkater}>profile</Button>
-        <Button onClick={handleGetAllSkaters}>skaters</Button>
-        <Button onClick={() => navigate(paths.friends)}>friends</Button>
-        <Button onClick={() => navigate(paths.landing)}>landing</Button>
-        <Logout />
-      </FlexColCentered>
+      <div className="flex-col justify-items-center">
+        <div className="flex-1 justify-self-end">
+          <UserCard user={user} />
+        </div>
+
+        <div className="flex-none">
+          <BigTitle>game of skate</BigTitle>
+        </div>
+        <Menu items={menuItems} />
+      </div>
     </FullPage>
   );
 };
