@@ -19,9 +19,9 @@ export const SkaterCard = ({ skater }: { skater: Skater }) => {
 
 export const UserCard = ({ user }: { user?: User }) => {
   if (!user) return <></>;
-
+  console.log(user.picture);
   return (
-    <div className="w-[100px] h-100px] flex-col">
+    <div className="flex-col">
       <RoundedImg src={user.picture} />
     </div>
   );

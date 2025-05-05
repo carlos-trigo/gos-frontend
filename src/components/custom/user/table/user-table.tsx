@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  ColumnDef,
   ColumnFiltersState,
   SortingState,
   VisibilityState,
@@ -11,17 +10,13 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -34,102 +29,19 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Skater } from "@/types/backend";
-import { UserAvatar } from "./avatar";
-
-export const columns: ColumnDef<Skater>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "picture",
-    header: "",
-    cell: ({ row }) => (
-      <UserAvatar
-        pictureUrl={row.getValue("picture")}
-        name={row.getValue("name")}
-      />
-    ),
-  },
-  {
-    accessorKey: "name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Name
-          <ArrowUpDown />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>,
-  },
-  {
-    accessorKey: "friendRequestStatus",
-    header: () => <div className="text-right"></div>,
-    cell: ({ row }) => {
-      return (
-        <div className="text-right font-medium">
-          {row.getValue("friendRequestStatus")}
-        </div>
-      );
-    },
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const skater = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(skater.id)}
-            >
-              Copy skater ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Add friend</DropdownMenuItem>
-            <DropdownMenuItem>Block</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
+import {
+  acceptFriendRequest,
+  addFriend,
+  rejectFriendRequest,
+} from "@/service/api";
+import { friendTableColumns } from "./friends-table-columns";
 
 interface SkaterTableProps {
-  skaters: Skater[];
+  users: Skater[];
+  token: string;
+  columns: typeof friendTableColumns;
 }
-export const SkatersTable = ({ skaters }: SkaterTableProps) => {
+export const UserTable = ({ users, token, columns }: SkaterTableProps) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -139,8 +51,12 @@ export const SkatersTable = ({ skaters }: SkaterTableProps) => {
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
-    data: skaters,
-    columns,
+    data: users,
+    columns: columns(
+      (id: string) => addFriend(id, token),
+      (id: string) => acceptFriendRequest(id, token),
+      (id: string) => rejectFriendRequest(id, token)
+    ),
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -158,7 +74,7 @@ export const SkatersTable = ({ skaters }: SkaterTableProps) => {
   });
 
   return (
-    <div className="w-full">
+    <div className="w-full h-full">
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter names..."
@@ -195,7 +111,7 @@ export const SkatersTable = ({ skaters }: SkaterTableProps) => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-md border overflow-y-auto h-full max-h-[70%]">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -235,7 +151,7 @@ export const SkatersTable = ({ skaters }: SkaterTableProps) => {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={friendTableColumns.length}
                   className="h-24 text-center"
                 >
                   No results.

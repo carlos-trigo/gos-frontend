@@ -8,12 +8,12 @@ export const Menu = ({
   const menuItems = items.map((item, index) => (
     <div className="flex-none" key={index.toString()}>
       <Button
-        className="w-100 text-4xl align-middle px-10 pt-9 pb-7 my-3 capitalize"
+        className="dark w-70 text-4xl text-center px-10 pt-6 pb-5 my-3 capitalize"
         onClick={item.callback}
       >
         {item.text}
       </Button>
     </div>
   ));
-  return <div className="flex-col flex-nowrap">{menuItems}</div>;
+  return <div className="flex-col flex-nowrap pt-10">{menuItems}</div>;
 };

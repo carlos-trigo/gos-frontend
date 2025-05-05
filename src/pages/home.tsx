@@ -5,9 +5,8 @@ import { getOrCreateSkater } from "../service/api";
 import { useNavigate } from "react-router";
 import { paths } from "../routes/paths";
 import { FullPage } from "@/components/custom/layout/full-page";
-import { BigTitle } from "@/components/custom/text";
 import { Menu } from "@/components/custom/menu";
-import { UserDropdownMenu } from "@/components/custom/user/user-dropdown-menu";
+import { Header } from "@/components/custom/layout/header";
 
 export const Home = () => {
   const {
@@ -58,14 +57,8 @@ export const Home = () => {
 
   return (
     <FullPage>
-      <div className="flex-col justify-items-center">
-        <div className="flex-1 pl-8 pt-8 justify-self-start">
-          <UserDropdownMenu user={user} />
-        </div>
-
-        <div className="flex-none">
-          <BigTitle>game of skate</BigTitle>
-        </div>
+      <div className="w-screen h-screen flex-col justify-items-center">
+        <Header user={user} />
         <Menu items={menuItems} />
       </div>
     </FullPage>

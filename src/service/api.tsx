@@ -19,8 +19,8 @@ export const getAllSkaters = async (token: string) => {
   return result;
 };
 
-export const getAddFriendsData = async (email: string, token: string) => {
-  const url = `${API_URL}/ui/add-friends/${email}`;
+export const getAddFriendsData = async (token: string) => {
+  const url = `${API_URL}/ui/add-friends`;
   const response = await fetch(url, {
     method: "GET",
     headers: {
@@ -72,6 +72,60 @@ export const getFriends = async (email: string, token: string) => {
   console.info(`PUT ${url}: `, response.status);
   if (response.status !== 200)
     throw new Error(`Failed to get friends: ${result.message}`);
+
+  return result;
+};
+
+export const addFriend = async (id: string, token: string) => {
+  const url = `${API_URL}/add-friend/${id}`;
+  const response = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const result = await response.json();
+
+  console.info(`PUT ${url}: `, response.status);
+  if (response.status !== 200)
+    throw new Error(`Failed to add friend: ${result.message}`);
+
+  return result;
+};
+
+export const acceptFriendRequest = async (id: string, token: string) => {
+  const url = `${API_URL}/friend-request/accept/${id}`;
+  const response = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const result = await response.json();
+
+  console.info(`PUT ${url}: `, response.status);
+  if (response.status !== 200)
+    throw new Error(`Failed to accept friend request: ${result.message}`);
+
+  return result;
+};
+
+export const rejectFriendRequest = async (id: string, token: string) => {
+  const url = `${API_URL}/friend-request/reject/${id}`;
+  const response = await fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const result = await response.json();
+
+  console.info(`PUT ${url}: `, response.status);
+  if (response.status !== 200)
+    throw new Error(`Failed to reject friend request: ${result.message}`);
 
   return result;
 };

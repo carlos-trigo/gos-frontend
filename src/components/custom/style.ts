@@ -5,7 +5,7 @@ export const color = {
 };
 
 export const fontSize = {
-  xl: "calc(120px + 2vmin);",
+  xl: "calc(130px + 2vmin);",
   l: "calc(80px + 2vmin);",
   m: "calc(30px + 2vmin);",
   s: "calc(10px + 2vmin);",

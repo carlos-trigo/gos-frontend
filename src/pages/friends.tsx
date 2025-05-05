@@ -1,13 +1,14 @@
 import { FullPage } from "@/components/custom/layout/full-page";
-import { BigTitle } from "@/components/custom/text";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Unauthorized } from "./unauthorized";
 import { useEffect, useState } from "react";
-import { getFriends } from "../service/api";
-import { useNavigate } from "react-router";
-import { paths } from "../routes/paths";
-import { Menu } from "@/components/custom/menu";
-import { UserDropdownMenu } from "@/components/custom/user/user-dropdown-menu";
+import { Skater } from "@/types/backend";
+import { isSkaterArray } from "@/service/typeguard";
+import { getAddFriendsData } from "@/service/api";
+import { UserTable } from "@/components/custom/user/table/user-table";
+import { friendTableColumns } from "@/components/custom/user/table/friends-table-columns";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Header } from "@/components/custom/layout/header";
 
 export const Friends = () => {
   const {
@@ -17,51 +18,63 @@ export const Friends = () => {
     getAccessTokenSilently,
   } = useAuth0();
   const [token, setToken] = useState<string>();
-  const navigate = useNavigate();
+  const [allSkaters, setAllSkaters] = useState<Skater[]>([]);
 
   useEffect(() => {
-    const getToken = async () => setToken(await getAccessTokenSilently());
+    const getToken = async () =>
+      token === undefined && setToken(await getAccessTokenSilently());
+    const getSkaters = async () => {
+      if (!user || !token) return;
+      const result = await getAddFriendsData(token);
+      console.info(result);
+      if (isSkaterArray(result.allSkaters)) setAllSkaters(result.allSkaters);
+    };
     getToken();
-  }, [getAccessTokenSilently]);
-
+    getSkaters();
+  }, [getAccessTokenSilently, token, user]);
   if (authIsLoading) {
     return <div>Loading ...</div>;
   }
 
-  if (!isAuthenticated) return <Unauthorized />;
+  if (!isAuthenticated || !token) return <Unauthorized />;
 
-  const handleGetFriends = async () => {
-    if (!user?.email || !token) return;
-    const result = getFriends(user.email, token);
-    console.info(result);
-  };
+  const currentFriendsTable = (
+    <UserTable
+      users={allSkaters.filter(
+        (skater) =>
+          skater.friendRequestStatus === "approved" ||
+          skater.friendRequestStatus === "pending"
+      )}
+      token={token}
+      columns={friendTableColumns}
+    />
+  );
 
-  const menuItems = [
-    {
-      text: "add-friends",
-      callback: () => navigate(paths.addFriends),
-    },
-    {
-      text: "friends",
-      callback: () => handleGetFriends(),
-    },
-    {
-      text: "back",
-      callback: () => navigate(paths.home),
-    },
-  ];
+  const allSkatersTable = (
+    <UserTable users={allSkaters} token={token} columns={friendTableColumns} />
+  );
+
   return (
     <FullPage>
-      <div className="flex-col justify-items-center">
-        <div className="flex-1 pl-8 pt-8 justify-self-start">
-          <UserDropdownMenu user={user} />
-        </div>
-        <div className="flex-none">
-          <BigTitle>game of skate</BigTitle>
-        </div>
-        <div className="flex-none">
-          <Menu items={menuItems} />
-        </div>
+      <div className="w-full flex-col justify-items-center">
+        <Header user={user} />
+
+        <Tabs defaultValue="friends" className="w-[400px]">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="friends">Friends</TabsTrigger>
+            <TabsTrigger value="add-people">Add people</TabsTrigger>
+          </TabsList>
+          <TabsContent value="friends">
+            <div className="flex w-full h-100 items-center justify-center">
+              {currentFriendsTable}
+            </div>{" "}
+          </TabsContent>
+          <TabsContent value="add-people">
+            <div className="flex w-full h-100 items-center justify-center">
+              {allSkatersTable}
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </FullPage>
   );
