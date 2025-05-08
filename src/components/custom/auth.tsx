@@ -4,7 +4,14 @@ import { paths } from "@/routes/paths";
 
 export const Login = () => {
   const { loginWithRedirect } = useAuth0();
-  return <Button onClick={() => loginWithRedirect()}>Log in</Button>;
+  const handleLogin = async () => {
+    await loginWithRedirect({
+      appState: {
+        returnTo: paths.home,
+      },
+    });
+  };
+  return <Button onClick={handleLogin}>Log in</Button>;
 };
 
 export const Logout = () => {

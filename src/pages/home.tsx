@@ -7,6 +7,7 @@ import { paths } from "../routes/paths";
 import { FullPage } from "@/components/custom/layout/full-page";
 import { Menu } from "@/components/custom/menu";
 import { Header } from "@/components/custom/layout/header";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const Home = () => {
   const {
@@ -18,11 +19,15 @@ export const Home = () => {
   } = useAuth0();
   const [token, setToken] = useState<string>();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const getToken = async () => setToken(await getAccessTokenSilently());
-    getToken();
-  }, [getAccessTokenSilently]);
+    if (isAuthenticated) {
+      getToken();
+    }
+    if (isMobile) alert("MOBILE");
+  }, [getAccessTokenSilently, isAuthenticated]);
 
   if (authIsLoading) {
     return <div>Loading ...</div>;

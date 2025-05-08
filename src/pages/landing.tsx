@@ -5,25 +5,29 @@ import { FullPage } from "@/components/custom/layout/full-page";
 import { BigTitle } from "@/components/custom/text";
 import { Button } from "@/components/custom/button";
 import { Login, Logout } from "@/components/custom/auth";
+import { useEffect } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export const Landing = () => {
   const { isAuthenticated, isLoading } = useAuth0();
+  const isMobile = useIsMobile();
   const navigate = useNavigate();
-
+  useEffect(() => {
+    if (isAuthenticated) {
+      console.info("User is logged in, redirecting to " + paths.home);
+      navigate(paths.home);
+    }
+    if (isMobile) alert("MOBILE");
+  }, [isMobile, isAuthenticated]);
   if (isLoading) {
     return <div>Loading ...</div>;
-  }
-
-  if (isAuthenticated) {
-    console.info("User is logged in, redirecting to " + paths.home);
-    navigate(paths.home);
   }
 
   return (
     <FullPage>
       <div className="flex-col justify-items-center flex-nowrap">
         <BigTitle>game of skate</BigTitle>
-        {isAuthenticated ? <Logout /> : <Login />}
+        <div>{isAuthenticated ? <Logout /> : <Login />}</div>
         <div>
           <Button onClick={() => navigate(paths.home)}>home</Button>
         </div>

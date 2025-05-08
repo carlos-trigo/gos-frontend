@@ -43,6 +43,7 @@ export const Auth0 = ({
         redirect_uri: redirectUri,
       }}
       onRedirectCallback={onRedirectCallback}
+      cacheLocation="localstorage"
     >
       {children}
     </Auth0Provider>

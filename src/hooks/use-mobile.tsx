@@ -41,7 +41,7 @@ export const useIsMobile = () => {
     } else {
       setIsMobile(false);
     }
-  });
+  }, []);
 
   return isMobile;
 };
