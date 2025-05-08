@@ -16,6 +16,8 @@ export const Menu = ({
     </div>
   ));
   return (
-    <div className="flex-col flex-nowrap justify-items-center">{menuItems}</div>
+    <div className="flex-col flex-nowrap justify-items-center w-full">
+      {menuItems}
+    </div>
   );
 };

@@ -1,4 +1,4 @@
-import { Layout } from "@/components/custom/layout/full-page";
+import { GridLayout } from "@/components/custom/layout/full-page";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Unauthorized } from "./unauthorized";
 import { useEffect, useState } from "react";
@@ -55,7 +55,7 @@ export const Friends = () => {
   );
 
   return (
-    <Layout
+    <GridLayout
       header={<Header user={user} />}
       title="Friends"
       content={

@@ -1,11 +1,11 @@
 import { Login } from "@/components/custom/auth";
-import { Layout } from "@/components/custom/layout/full-page";
+import { GridLayout } from "@/components/custom/layout/full-page";
 import { Header } from "@/components/custom/layout/header";
 import { Text } from "@/components/custom/text";
 
 export const Unauthorized = () => {
   return (
-    <Layout
+    <GridLayout
       header={<Header />}
       content={
         <>

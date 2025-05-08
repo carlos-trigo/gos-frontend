@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getOrCreateSkater } from "../service/api";
 import { useNavigate } from "react-router";
 import { paths } from "../routes/paths";
-import { Layout } from "@/components/custom/layout/full-page";
+import { GridLayout } from "@/components/custom/layout/full-page";
 import { Menu } from "@/components/custom/menu";
 import { Header } from "@/components/custom/layout/header";
 
@@ -58,7 +58,7 @@ export const Home = () => {
   ];
 
   return (
-    <Layout
+    <GridLayout
       header={<Header user={user} />}
       title="Home"
       content={<Menu items={menuItems} />}
