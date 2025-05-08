@@ -4,10 +4,9 @@ import { useEffect, useState } from "react";
 import { getOrCreateSkater } from "../service/api";
 import { useNavigate } from "react-router";
 import { paths } from "../routes/paths";
-import { FullPage } from "@/components/custom/layout/full-page";
+import { Layout } from "@/components/custom/layout/full-page";
 import { Menu } from "@/components/custom/menu";
 import { Header } from "@/components/custom/layout/header";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 export const Home = () => {
   const {
@@ -19,14 +18,12 @@ export const Home = () => {
   } = useAuth0();
   const [token, setToken] = useState<string>();
   const navigate = useNavigate();
-  const isMobile = useIsMobile();
 
   useEffect(() => {
     const getToken = async () => setToken(await getAccessTokenSilently());
     if (isAuthenticated) {
       getToken();
     }
-    if (isMobile) alert("MOBILE");
   }, [getAccessTokenSilently, isAuthenticated]);
 
   if (authIsLoading) {
@@ -61,11 +58,10 @@ export const Home = () => {
   ];
 
   return (
-    <FullPage>
-      <div className="w-screen h-screen flex-col justify-items-center">
-        <Header user={user} />
-        <Menu items={menuItems} />
-      </div>
-    </FullPage>
+    <Layout
+      header={<Header user={user} />}
+      title="Home"
+      content={<Menu items={menuItems} />}
+    />
   );
 };

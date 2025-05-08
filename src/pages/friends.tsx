@@ -1,4 +1,4 @@
-import { FullPage } from "@/components/custom/layout/full-page";
+import { Layout } from "@/components/custom/layout/full-page";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Unauthorized } from "./unauthorized";
 import { useEffect, useState } from "react";
@@ -55,27 +55,29 @@ export const Friends = () => {
   );
 
   return (
-    <FullPage>
-      <div className="w-full flex-col justify-items-center">
-        <Header user={user} />
-
-        <Tabs defaultValue="friends" className="w-[400px]">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="friends">Friends</TabsTrigger>
-            <TabsTrigger value="add-people">Add people</TabsTrigger>
-          </TabsList>
-          <TabsContent value="friends">
-            <div className="flex w-full h-100 items-center justify-center">
-              {currentFriendsTable}
-            </div>{" "}
-          </TabsContent>
-          <TabsContent value="add-people">
-            <div className="flex w-full h-100 items-center justify-center">
-              {allSkatersTable}
-            </div>
-          </TabsContent>
-        </Tabs>
-      </div>
-    </FullPage>
+    <Layout
+      header={<Header user={user} />}
+      title="Friends"
+      content={
+        <div className="flex-col w-screen h-full justify-items-center align-center">
+          <Tabs defaultValue="friends" className="w-[90vw] md:w-[550px]">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="friends">Friends</TabsTrigger>
+              <TabsTrigger value="add-people">Add people</TabsTrigger>
+            </TabsList>
+            <TabsContent value="friends">
+              <div className="flex w-full h-100 items-center justify-center">
+                {currentFriendsTable}
+              </div>{" "}
+            </TabsContent>
+            <TabsContent value="add-people">
+              <div className="flex w-full h-100 items-center justify-center">
+                {allSkatersTable}
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+      }
+    />
   );
 };

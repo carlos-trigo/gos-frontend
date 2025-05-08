@@ -20,7 +20,7 @@ export const Header = ({ user }: { user?: User }) => {
   }
 
   return (
-    <div className="w-screen flex justify-items-center pb-6">
+    <div className="w-full flex align-items-center pb-6">
       <div className="flex-1 pl-8 pt-8 justify-self-start">
         <UserDropdownMenu user={user} />
       </div>
