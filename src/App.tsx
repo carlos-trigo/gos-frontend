@@ -6,6 +6,7 @@ import { paths } from "./routes/paths";
 import { Friends } from "./pages/friends";
 import { Particles } from "./components/magicui/particles";
 import { ProtectedRoute } from "./routes/protected-route";
+import { Unauthorized } from "./pages/unauthorized";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Particles className="absolute top-0 left-0 w-screen h-screen overflow-hidden" />
       <Routes>
         <Route path={paths.landing} element={<Landing />} />
+        <Route path={paths.unauthorized} element={<Unauthorized />} />
         <Route
           path={paths.home}
           element={

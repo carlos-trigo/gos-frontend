@@ -8,4 +8,5 @@ export const paths = {
   stats: "/stats",
   game: "/game",
   newGame: "/new-game",
+  unauthorized: "/unauthorized",
 };

@@ -1,5 +1,4 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Unauthorized } from "./unauthorized";
 import { useEffect, useState } from "react";
 import { getOrCreateSkater } from "../service/api";
 import { useNavigate } from "react-router";
@@ -7,6 +6,7 @@ import { paths } from "../routes/paths";
 import { GridLayout } from "@/components/custom/layout/full-page";
 import { Menu } from "@/components/custom/menu";
 import { Header } from "@/components/custom/layout/header";
+import { Spinner } from "@/components/custom/spinner";
 
 export const Home = () => {
   const {
@@ -20,17 +20,19 @@ export const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (authIsLoading) return;
+    if (!isAuthenticated) navigate(paths.unauthorized);
+
     const getToken = async () => setToken(await getAccessTokenSilently());
-    if (isAuthenticated) {
+
+    if (isAuthenticated && token === undefined) {
       getToken();
     }
   }, [getAccessTokenSilently, isAuthenticated]);
 
   if (authIsLoading) {
-    return <div>Loading ...</div>;
+    return <Spinner />;
   }
-
-  if (!isAuthenticated) return <Unauthorized />;
 
   const handleGetOrCreateSkater = async () => {
     if (!user || !token) return;

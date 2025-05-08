@@ -7,6 +7,7 @@ import { Button } from "@/components/custom/button";
 import { Login, Logout } from "@/components/custom/auth";
 import { useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Spinner } from "@/components/custom/spinner";
 
 export const Landing = () => {
   const { isAuthenticated, isLoading } = useAuth0();
@@ -20,7 +21,7 @@ export const Landing = () => {
     if (isMobile) alert("MOBILE");
   }, [isMobile, isAuthenticated]);
   if (isLoading) {
-    return <div>Loading ...</div>;
+    return <Spinner />;
   }
 
   return (

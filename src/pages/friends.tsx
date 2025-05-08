@@ -9,6 +9,9 @@ import { UserTable } from "@/components/custom/user/table/user-table";
 import { friendTableColumns } from "@/components/custom/user/table/friends-table-columns";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Header } from "@/components/custom/layout/header";
+import { Spinner } from "@/components/custom/spinner";
+import { useNavigate } from "react-router";
+import { paths } from "@/routes/paths";
 
 export const Friends = () => {
   const {
@@ -19,21 +22,37 @@ export const Friends = () => {
   } = useAuth0();
   const [token, setToken] = useState<string>();
   const [allSkaters, setAllSkaters] = useState<Skater[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (authIsLoading) return;
+    if (!isAuthenticated) navigate(paths.unauthorized);
+
     const getToken = async () =>
       token === undefined && setToken(await getAccessTokenSilently());
+
     const getSkaters = async () => {
       if (!user || !token) return;
       const result = await getAddFriendsData(token);
       console.info(result);
+
       if (isSkaterArray(result.allSkaters)) setAllSkaters(result.allSkaters);
     };
-    getToken();
-    getSkaters();
-  }, [getAccessTokenSilently, token, user]);
+
+    if (isAuthenticated && token === undefined) getToken();
+    if (token && allSkaters === undefined) getSkaters();
+  }, [
+    getAccessTokenSilently,
+    allSkaters,
+    navigate,
+    isAuthenticated,
+    token,
+    user,
+    authIsLoading,
+  ]);
+
   if (authIsLoading) {
-    return <div>Loading ...</div>;
+    return <Spinner />;
   }
 
   if (!isAuthenticated || !token) return <Unauthorized />;
