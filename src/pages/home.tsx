@@ -28,7 +28,7 @@ export const Home = () => {
     if (isAuthenticated && token === undefined) {
       getToken();
     }
-  }, [getAccessTokenSilently, isAuthenticated]);
+  }, [getAccessTokenSilently, isAuthenticated, authIsLoading, navigate, token]);
 
   if (authIsLoading) {
     return <Spinner />;
