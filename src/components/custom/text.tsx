@@ -7,6 +7,7 @@ export const BigTitle = styled.h1`
   font-family: "Barrio", system-ui;
   font-family: "UnifrakturMaguntia", cursive;
   letter-spacing: -0.1em;
+  margin-top: -20px;
   @media only screen and (max-width: 585px) {
     font-size: ${fontSize.l};
   }
