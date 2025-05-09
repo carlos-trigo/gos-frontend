@@ -42,7 +42,7 @@ export const GridLayout = ({
 }) => {
   return (
     <div className="w-screen h-dvh grid grid-cols-1 auto-rows-[5vh] gap-y-0 gap-x-0">
-      <div className="w-screen row-span-6 md:row-span-5">{header}</div>
+      <div className="w-screen row-span-3 md:row-span-5">{header}</div>
       <div className="w-screen row-span-1 flex-col items-center justify-center">
         <p className="text-center text-3xl">{title}</p>
       </div>
