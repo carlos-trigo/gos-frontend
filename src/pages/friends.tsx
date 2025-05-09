@@ -25,22 +25,23 @@ export const Friends = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (authIsLoading) return;
-    if (!isAuthenticated) navigate(paths.unauthorized);
-
-    const getToken = async () =>
-      token === undefined && setToken(await getAccessTokenSilently());
+    const getToken = async () => setToken(await getAccessTokenSilently());
 
     const getSkaters = async () => {
-      if (!user || !token) return;
-      const result = await getAddFriendsData(token);
-      console.info(result);
-
-      if (isSkaterArray(result.allSkaters)) setAllSkaters(result.allSkaters);
+      if (token) {
+        const result = await getAddFriendsData(token);
+        if (isSkaterArray(result.allSkaters)) setAllSkaters(result.allSkaters);
+      }
+      console.warn("Cannot get users, no auth token present");
     };
 
-    if (isAuthenticated && token === undefined) getToken();
-    if (token && allSkaters === undefined) getSkaters();
+    if (authIsLoading) {
+      console.log("Waiting for auth to load");
+    } else {
+      if (!isAuthenticated) navigate(paths.unauthorized);
+      if (isAuthenticated && !token) getToken();
+      getSkaters();
+    }
   }, [
     getAccessTokenSilently,
     allSkaters,

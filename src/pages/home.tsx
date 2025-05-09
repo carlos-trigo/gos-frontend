@@ -20,11 +20,14 @@ export const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (authIsLoading) return;
-    if (!isAuthenticated) navigate(paths.unauthorized);
-
     const getToken = async () => setToken(await getAccessTokenSilently());
 
+    if (authIsLoading) {
+      console.log("Waiting for auth to load");
+    } else {
+      if (!isAuthenticated) navigate(paths.unauthorized);
+      if (isAuthenticated && !token) getToken();
+    }
     if (isAuthenticated && token === undefined) {
       getToken();
     }
