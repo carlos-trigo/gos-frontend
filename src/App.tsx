@@ -11,7 +11,7 @@ import { Unauthorized } from "./pages/unauthorized";
 function App() {
   return (
     <div className="App">
-      <Particles className="absolute top-0 left-0 w-screen h-screen overflow-hidden" />
+      <Particles className="absolute top-0 left-0 w-screen h-dvh overflow-hidden" />
       <Routes>
         <Route path={paths.landing} element={<Landing />} />
         <Route path={paths.unauthorized} element={<Unauthorized />} />

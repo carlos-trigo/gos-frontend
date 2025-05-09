@@ -6,20 +6,19 @@ import { BigTitle } from "@/components/custom/text";
 import { Button } from "@/components/custom/button";
 import { Login, Logout } from "@/components/custom/auth";
 import { useEffect } from "react";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { Spinner } from "@/components/custom/spinner";
 
 export const Landing = () => {
   const { isAuthenticated, isLoading } = useAuth0();
-  const isMobile = useIsMobile();
   const navigate = useNavigate();
+
   useEffect(() => {
     if (isAuthenticated) {
       console.info("User is logged in, redirecting to " + paths.home);
       navigate(paths.home);
     }
-    if (isMobile) alert("MOBILE");
-  }, [isMobile, isAuthenticated]);
+  }, [isAuthenticated, navigate]);
+
   if (isLoading) {
     return <Spinner />;
   }
