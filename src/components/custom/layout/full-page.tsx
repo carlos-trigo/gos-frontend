@@ -19,7 +19,7 @@ export const Layout = ({
 }) => {
   return (
     <FullPage>
-      <div className="w-screen h-dvh flex-col justify-items-center">
+      <div className="w-screen h-dvh max-h-dvh overflow-hidden flex-col justify-items-center">
         <div className="w-screen">{header}</div>
         <div className="w-screen -mt-4 mb-14">
           <p className="text-center text-3xl">{title}</p>
