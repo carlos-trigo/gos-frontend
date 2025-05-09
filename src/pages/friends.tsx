@@ -86,12 +86,12 @@ export const Friends = () => {
               <TabsTrigger value="add-people">Add people</TabsTrigger>
             </TabsList>
             <TabsContent value="friends">
-              <div className="flex w-full h-[500px] items-center justify-center">
+              <div className="flex w-full h-[420px] items-center justify-center">
                 {currentFriendsTable}
               </div>{" "}
             </TabsContent>
             <TabsContent value="add-people">
-              <div className="flex w-full h-full items-center justify-center">
+              <div className="flex w-ful lh-[420px] items-center justify-center">
                 {allSkatersTable}
               </div>
             </TabsContent>
