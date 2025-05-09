@@ -80,7 +80,7 @@ export const Friends = () => {
       title="Friends"
       content={
         <div className="flex-col w-screen h-full justify-items-center align-center">
-          <Tabs defaultValue="friends" className="w-[90vw] md:w-[550px]">
+          <Tabs defaultValue="friends" className="w-[385px] md:w-[550px]">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="friends">Friends</TabsTrigger>
               <TabsTrigger value="add-people">Add people</TabsTrigger>
