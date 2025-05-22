@@ -39,18 +39,10 @@ export const Friends = () => {
       console.log("Waiting for auth to load");
     } else {
       if (!isAuthenticated) navigate(paths.unauthorized);
-      if (isAuthenticated && !token) getToken();
-      getSkaters();
+      if (!token) getToken();
+      if (token) getSkaters();
     }
-  }, [
-    getAccessTokenSilently,
-    allSkaters,
-    navigate,
-    isAuthenticated,
-    token,
-    user,
-    authIsLoading,
-  ]);
+  }, [getAccessTokenSilently, navigate, isAuthenticated, token, authIsLoading]);
 
   if (authIsLoading) {
     return <Spinner />;

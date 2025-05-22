@@ -26,10 +26,7 @@ export const Home = () => {
       console.log("Waiting for auth to load");
     } else {
       if (!isAuthenticated) navigate(paths.unauthorized);
-      if (isAuthenticated && !token) getToken();
-    }
-    if (isAuthenticated && token === undefined) {
-      getToken();
+      if (isAuthenticated && token === undefined) getToken();
     }
   }, [getAccessTokenSilently, isAuthenticated, authIsLoading, navigate, token]);
 
